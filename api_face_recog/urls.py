@@ -4,5 +4,6 @@ from . import views
 app_name = 'api_face_recog'
 
 urlpatterns = [
-    path('', views.FaceRecognitionInferenceViews.as_view(), name='face_recog'),
+    path('detect_face/', views.FaceRecognitionInferenceViews.as_view(), name='face_recog'),
+    path('train/', views.FaceRecognitionTrainingViews.as_view(), name='face_recog'),
 ]

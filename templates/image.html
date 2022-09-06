@@ -49,7 +49,8 @@
                 postSuccess: function (form, response, instance) {
                     form.reset();
                     Materialize.updateTextFields();
-                    $('#detect-data').removeClass('hide').attr('src', response['image']);
+                    console.log(response)
+                    $('#detect-data').removeClass('hide').attr('src', 'data:image/jpeg;base64,' + btoa(atob(response['image'])));
                     $(instance.options.submitBtn).val('Detect Face').prop('disabled', false).removeClass('disabled');
                 },
             });
