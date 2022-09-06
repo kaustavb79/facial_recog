@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-from face_recog.api_face_recog.src.utils import *
+from .utils import *
 
 
 def get_face_detect_data(data):

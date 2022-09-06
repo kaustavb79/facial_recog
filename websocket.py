@@ -8,7 +8,7 @@ import tornado.options
 import tornado.web
 import tornado.websocket
 from tornado.options import define, options
-from face_recog.api_face_recog.src.detect_face import get_face_detect_data
+from api_face_recog.src.detect_face import get_face_detect_data
 
 
 def setup_custom_logger(name):
