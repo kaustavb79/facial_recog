@@ -56,7 +56,7 @@ class FaceRecognitionInferenceViews(APIView):
             # file_path = str(request_file.temporary_file_path())
             filename = request_file.name
             fs = FileSystemStorage()
-            file_path_without_media = fs.save("api_face_recog/" + filename, request_file)
+            file_path_without_media = fs.save("api_face_recog/inference/" + filename, request_file)
             file_path = "media/" + file_path_without_media
             ext = os.path.splitext(file_path)[1].strip(".")
             try:
@@ -68,6 +68,8 @@ class FaceRecognitionInferenceViews(APIView):
                     message = "Face Recognised!!!"
                     status = "success"
                     is_valid = True
+                else:
+                    message = "No face recognised"
         else:
             message = "No file/data uploaded"
         json_response = {
@@ -77,7 +79,7 @@ class FaceRecognitionInferenceViews(APIView):
             'is_valid': is_valid,
             "data": data
         }
-        return JsonResponse(json_response)
+        return Response(json_response)
 
 
 
@@ -107,7 +109,13 @@ class FaceRecognitionTrainingViews(APIView):
         
         if request.data.get('video_file'):
             request_file = request.FILES['video_file']
-            file_path = str(request_file.temporary_file_path())
+            # file_path = str(request_file.temporary_file_path())            
+            filename = request_file.name
+            fs = FileSystemStorage()
+            file_path_without_media = fs.save("api_face_recog/train/" + filename, request_file)
+            file_path = "media/" + file_path_without_media
+            
+            ext = os.path.splitext(file_path)[1].strip(".")
             print(file_path,'----',type(file_path))
             metadata = request.data.get('metadata')
             role = request.data.get('role')
@@ -116,7 +124,7 @@ class FaceRecognitionTrainingViews(APIView):
             log = {}
             try:
                 data_path = extract_images_from_videos(id,file_path)
-                train(data_path)
+                # train(data_path)
             except Exception as e:
                 log['exception'] = str(e)
                 logger.exception("Exception Occurred in Traing API!!!")

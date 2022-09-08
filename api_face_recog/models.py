@@ -17,7 +17,7 @@ class UserDataModel(models.Model):
     date_time = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return "USER: %s" , self.user_id
+        return "USER: "+self.user_id
 
     class Meta:
         ordering = ('-date_time',)

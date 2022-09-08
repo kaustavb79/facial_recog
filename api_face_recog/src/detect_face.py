@@ -22,12 +22,16 @@ def inference_image(image):
     img_rgb = cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
     #----------Finding face Location for drawing bounding boxes-------
     faces_in_frame = face_recognition.face_locations(img_rgb)
+    print("faces_in_frame -- ",faces_in_frame)
     encoded_faces = face_recognition.face_encodings(img_rgb, faces_in_frame)
+    print("encoded_faces: ",encoded_faces)
     for encode_face, faceloc in zip(encoded_faces,faces_in_frame):
-        temp = {}
         matches = face_recognition.compare_faces(encoded_face_train, encode_face)
+        print("matches: ",matches)
         faceDist = face_recognition.face_distance(encoded_face_train, encode_face)
+        print("faceDist: ",faceDist)
         matchIndex = np.argmin(faceDist)
+        print("matchIndex: ",matchIndex)
         # print(matchIndex)
         if matches[matchIndex]:
             name = classNames[matchIndex].upper().lower()
