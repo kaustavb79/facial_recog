@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'app_student_attendence',
+    'app_recognition',
     'api_face_recog',
 ]
 
@@ -144,3 +144,8 @@ FILE_UPLOAD_HANDLERS = ("django.core.files.uploadhandler.MemoryFileUploadHandler
  "django.core.files.uploadhandler.TemporaryFileUploadHandler",)
 
  
+import json
+recog_model_config = json.load(open('resources/api_face_recog/config/config.json'))
+RECOGNIION_MODEL = recog_model_config['model'][1]
+RECOGNIION_DETECTOR = recog_model_config['detector'][4]
+RECOGNIION_METRICS = recog_model_config['metric'][2]

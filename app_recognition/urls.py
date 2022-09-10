@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 
-app_name = 'app_student_attendence'
+app_name = 'app_recognition'
 
 urlpatterns = [
     path('image/', views.ImageFaceDetect.as_view(), name='image'),

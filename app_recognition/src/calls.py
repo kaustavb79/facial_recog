@@ -1,7 +1,7 @@
 import base64
-import json
 import requests
 import cv2
+from api_face_recog.models import FaceRecogModel
 
 def get_face_recognition_response(request, file):
     final_response_json = {
@@ -10,7 +10,7 @@ def get_face_recognition_response(request, file):
         "message": "Invalid Data!!!",
         "image": ""
     }
-    url = request.api_url + "/api/detect_face/"
+    url = request.api_url + "/api/inference/"
     # print(file)
     # print(url)
     header = {
@@ -35,13 +35,17 @@ def get_face_recognition_response(request, file):
                     # Using cv2.rectangle() method
                     # Draw a rectangle with blue line borders of thickness of 2 px
                     for x in data['data']:
-                        img = cv2.rectangle(img, (x['coordinates']['x_min'],x['coordinates']['y_min']), (x['coordinates']['x_max'],x['coordinates']['y_max']), color, thickness)
-                        img = cv2.rectangle(img, (x['coordinates']['x_min'],x['coordinates']['y_max']-35), (x['coordinates']['x_max'],x['coordinates']['y_max']), color, thickness)
-                        img = cv2.putText(img,x['class'], (x['coordinates']['x_min']+6,x['coordinates']['y_max']-5), cv2.FONT_HERSHEY_COMPLEX,1,(255,255,255),2)
+                        obj = FaceRecogModel.objects.get(pk=x['class'])
+                        class_name = "Unknown"
+                        if obj:
+                            class_name = obj.name_of_person
+                        img = cv2.rectangle(img, (x['bbox']['x_min'],x['bbox']['y_min']), (x['bbox']['x_max'],x['bbox']['y_max']), color, thickness)
+                        img = cv2.rectangle(img, (x['bbox']['x_min'],x['bbox']['y_max']-35), (x['bbox']['x_max'],x['bbox']['y_max']), color, thickness)
+                        img = cv2.putText(img,class_name, (x['bbox']['x_min']+6,x['bbox']['y_max']-5), cv2.FONT_HERSHEY_COMPLEX,1,(255,255,255),2)
 
-                        retval, buffer = cv2.imencode('.jpg', img)
-                        jpg_as_text = base64.b64encode(buffer)
-                        final_response_json['image'] = jpg_as_text.decode('utf-8')
+                    retval, buffer = cv2.imencode('.jpg', img)
+                    jpg_as_text = base64.b64encode(buffer)
+                    final_response_json['image'] = jpg_as_text.decode('utf-8')
                     final_response_json['status'] = data['status']
                     final_response_json['is_valid'] = data['is_valid']
                     final_response_json['message'] = data['message']

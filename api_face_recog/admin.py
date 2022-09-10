@@ -1,8 +1,11 @@
 from django.contrib import admin
-from .models import UserDataModel
+
+# Register your models here.
+from .models import FaceRecogModel
 
 
-class UserDataModelAdminReadOnly(admin.ModelAdmin):
+class FaceRecogModelAdminReadOnly(admin.ModelAdmin):
     readonly_fields = ('date_time',)
 
-admin.site.register(UserDataModel, UserDataModelAdminReadOnly)
+
+admin.site.register(FaceRecogModel, FaceRecogModelAdminReadOnly)

@@ -1,7 +1,7 @@
 import base64
 from django.http import JsonResponse
 from django.views.generic import TemplateView
-from app_student_attendence.src.calls import get_face_recognition_response
+from app_recognition.src.calls import get_face_recognition_response
 import os
 import uuid
 
@@ -14,12 +14,12 @@ class ImageFaceDetect(TemplateView):
             if "media" not in os.listdir():
                 os.mkdir("media")
 
-            file_path = os.path.join('media','app_student_attendence')
-            if "app_student_attendence" not in os.listdir("media"):
+            file_path = os.path.join('media','app_recognition')
+            if not os.path.exists(file_path):
                 os.mkdir(file_path)
 
             format, imgstr = data.split(';base64,') 
-            ext = format.split('/')[-1]
+
             file_path = file_path+"/blob_"+str(uuid.uuid4())[:10]+".jpg"
             with open(file_path, "wb") as f:
                 f.write(base64.b64decode(imgstr))

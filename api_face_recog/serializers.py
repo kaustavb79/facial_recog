@@ -1,22 +1,23 @@
+from random import choices
 from rest_framework import serializers
-from .models import UserDataModel
 from django.forms import ClearableFileInput
 
-class UserDataInferenceModelSerializer(serializers.ModelSerializer):
+from .models import FaceRecogModel
+
+class FaceRecogInferenceModelSerializer(serializers.ModelSerializer):
     class Meta:
-        model = UserDataModel
+        model = FaceRecogModel
         fields = (
             'input_data',
         )
 
 
-class UserDataTrainingModelSerializer(serializers.ModelSerializer):
-    video_file = serializers.FileField(source='input_data')
-    role = serializers.CharField()
+class FaceRecogTrainingModelSerializer(serializers.ModelSerializer):
+    video_file = serializers.FileField(source="input_data")
+
     class Meta:
-        model = UserDataModel
+        model = FaceRecogModel
         fields = (
             'video_file',
-            'metadata',
-            'role'
+            'name_of_person'
         )

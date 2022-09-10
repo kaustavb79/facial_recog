@@ -3,12 +3,12 @@
 
 import logging as log
 import os
+from app_recognition.src.call_live import get_live_face_recognition
 import tornado.ioloop
 import tornado.options
 import tornado.web
 import tornado.websocket
 from tornado.options import define, options
-from api_face_recog.src.detect_face import get_face_detect_data
 
 
 def setup_custom_logger(name):
@@ -37,7 +37,8 @@ class MainHandler(tornado.websocket.WebSocketHandler):
         logger.info("A client disconnected")
 
     def on_message(self, message):
-        image_data = get_face_detect_data(message)
+        # print("message: ",message)
+        image_data = get_live_face_recognition(message)
         if not image_data:
             image_data = message
         self.write_message(image_data)

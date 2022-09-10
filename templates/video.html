@@ -2,8 +2,8 @@
 {% block content %}
     <div class="col s4">
         <div class="collection">
-            <a href="{% url 'student:image' %}" class="collection-item active">Simple Face Detection</a>
-            <a href="{% url 'student:live' %}" class="collection-item">Live Face Detection</a>
+            <a href="{% url 'recognize:image' %}" class="collection-item active">Simple Face Detection</a>
+            <a href="{% url 'recognize:live' %}" class="collection-item">Live Face Detection</a>
         </div>
     </div>
     <div class="col s6">
@@ -53,7 +53,7 @@
                 image.onload = function () {
                     draw_context.drawImage(image, 0, 0, 600, 450);
                 };
-                image.src = e.data;
+                image.src = 'data:image/jpeg;base64,' + btoa(atob(e.data));
                 drawCanvas();
             };
         })
